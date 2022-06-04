@@ -1,5 +1,5 @@
 import { initializeSweepLine } from '../bentley-ottman/sweepLine'
-import { compareSegmentAsc } from './compareSegmentAsc'
+import { compareSegmentAscBySweepLine } from './compareSegmentAscBySweepLine'
 
 describe('compareSegmentAsc関数のテスト', () => {
   const a: Segment = {
@@ -27,7 +27,24 @@ describe('compareSegmentAsc関数のテスト', () => {
     const sweepLine = initializeSweepLine(x)
     sweepLine.setPhase(phase)
 
-    expect(compareSegmentAsc(sweepLine)(a, b)).toEqual(expected)
+    expect(compareSegmentAscBySweepLine(sweepLine)(a, b)).toEqual(expected)
   })
 
+  it('test', () => {
+    const segA: Segment = {
+      start: { x: 1, y: 1 },
+      end: { x: 1, y: 2 },
+    }
+
+    const segB: Segment = {
+      start: { x: 1, y: 1 },
+      end: { x: 4, y: 4 },
+    }
+
+    const sweepLine = initializeSweepLine(1)
+
+    const result = compareSegmentAscBySweepLine(sweepLine)(segA, segB)
+
+    console.log(result)
+  })
 })

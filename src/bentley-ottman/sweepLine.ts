@@ -3,6 +3,7 @@ class SweepLine {
     private position: number,
     private p: 'forward' | 'backward',
   ) {
+
   }
 
   public get xCoord(): number {

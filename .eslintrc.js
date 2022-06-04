@@ -1,23 +1,25 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: [
     'airbnb-base',
-    'prettier'
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
   plugins: [
-    '@typescript-eslint'
+    '@typescript-eslint',
   ],
   rules: {
     'no-undef': 'off',
     'no-unused-vars': 'warn',
+    'no-useless-constructor': 'off',
+    'no-empty-function': 'off',
     'prefer-destructuring': 'off',
     'consistent-return': 'off',
     'default-case': 'off',
@@ -29,6 +31,6 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': 'off',
     'import/prefer-default-export': 'off',
     'import/no-unresolved': 'off',
-    'import/extensions': 'off'
-  }
+    'import/extensions': 'off',
+  },
 }

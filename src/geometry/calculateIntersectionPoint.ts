@@ -27,16 +27,21 @@ const ratCrossProduct =
     return ratSub(ratMul(a[0], b[1]), ratMul(a[1], b[0]))
   }
 
+type Payload = {
+  first: Segment,
+  second: Segment
+}
+
 /**
  * 2つの線分の交点を計算する。
  * 線分が平行であった場合はOption.noneを返す。
  *
  * 事前条件は2つの線分が交差していること。
- * @param s1
- * @param s2
+ * @param first
+ * @param second
  */
 export const calculateIntersectionPoint =
-  (s1: Segment, s2: Segment): Option<Point> => {
+  ({ first, second }: Payload): Option<Point> => {
     // 交点cが線分をt:1-tに分割しているとすると、
     // 交点はt*線分のベクトルとなる、すなわち
     // c = s1.p1 + (s1.p2-s1.p1) * t (p1は線分の始点、p2は線分の終点)
@@ -45,12 +50,12 @@ export const calculateIntersectionPoint =
     // (c-s2.p2) x (s2.p2 - s2.p.1) = 0
     // cを代入し、外積の分配則を適用するとtが算出できる
 
-    const s2StartPos = ratVector([s2.start.x, s2.start.y])
-    const s2EndPos = ratVector([s2.end.x, s2.end.y])
+    const s2StartPos = ratVector([second.start.x, second.start.y])
+    const s2EndPos = ratVector([second.end.x, second.end.y])
     const baseVec = vecSub(s2EndPos, s2StartPos)
 
-    const s1StartPos = ratVector([s1.start.x, s1.start.y])
-    const s1EndPos = ratVector([s1.end.x, s1.end.y])
+    const s1StartPos = ratVector([first.start.x, first.start.y])
+    const s1EndPos = ratVector([first.end.x, first.end.y])
     const s1Vec = vecSub(s1EndPos, s1StartPos)
 
     const crossProductS1AndBase = ratCrossProduct(s1Vec, baseVec)

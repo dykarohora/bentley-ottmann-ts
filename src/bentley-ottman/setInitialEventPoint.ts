@@ -7,19 +7,17 @@ export const setInitialEventPoint =
     const eventQueue = new AVLTree<EventPoint, EventPoint>(comparePointAsc, true)
 
     segments.forEach(
-      (segment, index) => {
+      (segment) => {
         const sorted = cleanSegmentOrder(segment)
 
         const start: EventPoint = {
           type: 'start',
-          segmentId: index,
           segments: [],
           ...sorted.start,
         }
 
         const end: EventPoint = {
           type: 'end',
-          segmentId: index,
           segments: [],
           ...sorted.end,
         }
@@ -32,10 +30,7 @@ export const setInitialEventPoint =
           throw new Error('Application Bug')
         }
 
-        startFromQueue.segments.push({
-          start: { ...sorted.start, segmentId: index },
-          end: { ...sorted.end, segmentId: index },
-        })
+        startFromQueue.segments.push(sorted)
 
         eventQueue.insert(end, end)
       },

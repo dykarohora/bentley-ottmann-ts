@@ -35,7 +35,7 @@ describe('intersectsSegment関数のテスト', () => {
     [{ start: { x: 1, y: 1 }, end: { x: -1, y: -1 } }, { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } }, true],
     [{ start: { x: 1, y: 0 }, end: { x: -1, y: 0 } }, { start: { x: 0, y: 0 }, end: { x: 1, y: 0 } }, true],
     [{ start: { x: 0, y: 1 }, end: { x: 0, y: -1 } }, { start: { x: 0, y: 0 }, end: { x: 0, y: 1 } }, true],
-  ])('線分%oと線分%oの衝突判定の結果は%s', (s1, s2, expected) => {
-    expect(isIntersectSegments(s1, s2)).toBe(expected)
+  ])('線分%oと線分%oの衝突判定の結果は%s', (first, second, expected) => {
+    expect(isIntersectSegments({ first, second })).toBe(expected)
   })
 })

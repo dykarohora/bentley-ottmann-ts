@@ -1,0 +1,1 @@
+export { detectIntersections } from './detectIntersections'

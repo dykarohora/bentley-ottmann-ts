@@ -36,7 +36,6 @@
     "nextafter": "^1.0.0",
     "rat-vec": "^1.1.1",
     "robust-orientation": "^1.2.1",
-    "robust-predicates": "^3.0.1",
     "splaytree": "^3.1.1",
     "tinyqueue": "^2.0.3"
   }

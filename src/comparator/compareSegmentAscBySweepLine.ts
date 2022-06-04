@@ -22,9 +22,11 @@ import { SweepLine } from '../bentley-ottman/sweepLine'
  */
 const getYCoord =
   ({ start, end }: Segment, sweepLineXCoord: number): number => {
+    // 走査線と線分が交差していない
     if (sweepLineXCoord <= start.x) {
       return start.y
     }
+
     if (end.x <= sweepLineXCoord) {
       return end.y
     }
@@ -55,6 +57,11 @@ const getYCoord =
  */
 const getSlope =
   (segment: Segment): number => {
+    // 線分がY軸に平行であるとき
+    if (Math.abs(segment.start.x - segment.end.y) < Number.EPSILON) {
+      return segment.start.y < segment.end.y ? Infinity : -Infinity
+    }
+
     const startX = rat(segment.start.x)
     const startY = rat(segment.start.y)
     const endX = rat(segment.end.x)
@@ -72,7 +79,7 @@ const getSlope =
  * 現在の走査線上において、y座標が小さい方を前とする。
  * @param sweepLine
  */
-export const compareSegmentAsc =
+export const compareSegmentAscBySweepLine =
   (sweepLine: SweepLine) =>
     (a: Segment, b: Segment): number => {
       if (a === b) {
@@ -86,25 +93,26 @@ export const compareSegmentAsc =
       const by = getYCoord(b, sweepLine.xCoord)
       const deltaY = ay - by
 
-      // 3つの線分が交差していない
+      // 3つの線分が交差していないときはY座標の位置から判定する
       if (Math.abs(deltaY) > Number.EPSILON) {
         return deltaY < 0 ? -1 : 1
       }
 
-      // 線分が交差している場合は傾きから順序を判定する
+      // 3つ線分が交差している場合は傾きから順序を判定する
       const aSlope = getSlope(a)
       const bSlope = getSlope(b)
 
-      if (Math.abs(aSlope - bSlope) < Number.EPSILON) {
-        return 0
+      // 傾きに差がある
+      if (Math.abs(aSlope - bSlope) > Number.EPSILON) {
+        // 交差において交点の左側を基準に判定する場合は傾きが大きい方が前方となる
+        // 右側では逆になる
+        switch (sweepLine.phase) {
+          case 'backward':
+            return aSlope > bSlope ? -1 : 1
+          case 'forward':
+            return aSlope > bSlope ? 1 : -1
+        }
       }
 
-      // 交差において交点の左側を基準に判定する場合は傾きが大きい方が前方となる
-      // 右側では逆になる
-      switch (sweepLine.phase) {
-        case 'backward':
-          return aSlope > bSlope ? -1 : 1
-        case 'forward':
-          return aSlope > bSlope ? 1 : -1
-      }
+      return 0
     }

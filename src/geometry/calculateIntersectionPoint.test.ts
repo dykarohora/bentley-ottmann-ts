@@ -32,9 +32,9 @@ describe('getCrossPoint関数のテスト', () => {
       { start: { x: 1, y: 0 }, end: { x: 1e20, y: 1e-11 } },
       { x: 1.1111111111111112, y: 1.1111111111111109e-32 },
     ],
-  ])('線分%oと線分%oの交点は%o', (s1, s2, crossPoint) => {
+  ])('線分%oと線分%oの交点は%o', (first, second, crossPoint) => {
     const result = pipe(
-      calculateIntersectionPoint(s1, s2),
+      calculateIntersectionPoint({ first, second }),
       O.foldW(
         constVoid,
         identity,
